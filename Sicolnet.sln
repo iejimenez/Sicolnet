@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicolnet", "Sicolnet\Sicolnet.csproj", "{5C919D2C-EE8D-4D6D-9493-EEE7D98A3D50}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicolnet.Test", "Sicolnet.Test\Sicolnet.Test.csproj", "{C5C1E5C0-8C25-4A9E-8167-410E1E3084CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C919D2C-EE8D-4D6D-9493-EEE7D98A3D50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C919D2C-EE8D-4D6D-9493-EEE7D98A3D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C919D2C-EE8D-4D6D-9493-EEE7D98A3D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C919D2C-EE8D-4D6D-9493-EEE7D98A3D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C1E5C0-8C25-4A9E-8167-410E1E3084CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C1E5C0-8C25-4A9E-8167-410E1E3084CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C1E5C0-8C25-4A9E-8167-410E1E3084CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C1E5C0-8C25-4A9E-8167-410E1E3084CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0C497E6-7685-4C0A-A861-CA71C04505F4}
+	EndGlobalSection
+EndGlobal

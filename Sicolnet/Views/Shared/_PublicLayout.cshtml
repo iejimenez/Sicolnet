@@ -1,0 +1,248 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SicolNet</title>
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    @*<link href="~/css/all.min.css" rel="stylesheet" />*@
+    <link href="~/css/bootstrap_limitless.css" rel="stylesheet" />
+    <link href="~/css/components.css" rel="stylesheet" />
+    <link href="~/css/layout.css" rel="stylesheet" />
+    <link href="~/css/icons/icomoon/styles.min.css" rel="stylesheet" />
+    <link href="~/css/icons/fontawesome/styles.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+
+    <!-- Main navbar -->
+    <div class="navbar navbar-expand-lg navbar-dark navbar-static">
+        <div class="d-flex flex-1 d-lg-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+                <i class="icon-paragraph-justify3"></i>
+                <span class="badge badge-mark border-warning m-1"></span>
+            </button>
+        </div>
+
+        <div class="navbar-brand wmin-0 mr-lg-5">
+            <a href="index.html" class="d-inline-block">
+                <img src="../../../../global_assets/images/logo_light.png" class="d-none d-sm-block" alt="">
+                <img src="../../../../global_assets/images/logo_icon_light.png" class="d-sm-none" alt="">
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse order-2 order-lg-1 " id="navbar-mobile">
+            <ul class="navbar-nav d-none">
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link" data-toggle="dropdown">
+                        <i class="icon-people"></i>
+                        <span class="d-lg-none ml-3">Users</span>
+                        <span class="badge badge-mark border-warning ml-auto ml-lg-0"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content wmin-lg-300">
+                        <div class="dropdown-content-header">
+                            <span class="font-weight-semibold">Users online</span>
+                            <a href="#" class="text-body"><i class="icon-search4 font-size-base"></i></a>
+                        </div>
+
+                        <div class="dropdown-content-body dropdown-scrollable">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-title font-weight-semibold">Jordana Ansley</a>
+                                        <span class="d-block text-muted font-size-sm">Lead web developer</span>
+                                    </div>
+                                    <div class="ml-3 align-self-center"><span class="badge badge-mark border-success"></span></div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-title font-weight-semibold">Will Brason</a>
+                                        <span class="d-block text-muted font-size-sm">Marketing manager</span>
+                                    </div>
+                                    <div class="ml-3 align-self-center"><span class="badge badge-mark border-danger"></span></div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-title font-weight-semibold">Hanna Walden</a>
+                                        <span class="d-block text-muted font-size-sm">Project manager</span>
+                                    </div>
+                                    <div class="ml-3 align-self-center"><span class="badge badge-mark border-success"></span></div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-title font-weight-semibold">Dori Laperriere</a>
+                                        <span class="d-block text-muted font-size-sm">Business developer</span>
+                                    </div>
+                                    <div class="ml-3 align-self-center"><span class="badge badge-mark border-warning"></span></div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="36" height="36" class="rounded-circle" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <a href="#" class="media-title font-weight-semibold">Vanessa Aurelius</a>
+                                        <span class="d-block text-muted font-size-sm">UX expert</span>
+                                    </div>
+                                    <div class="ml-3 align-self-center"><span class="badge badge-mark border-secondary"></span></div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-content-footer bg-light">
+                            <a href="#" class="text-body mr-auto">All users</a>
+                            <a href="#" class="text-body"><i class="icon-gear"></i></a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="navbar-nav-link" data-toggle="dropdown">
+                        <i class="icon-archive"></i>
+                        <span class="d-lg-none ml-3">Activity</span>
+                        <span class="badge badge-mark border-warning ml-auto ml-lg-0"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-content wmin-lg-350">
+                        <div class="dropdown-content-header">
+                            <span class="font-weight-semibold">Latest activity</span>
+                            <a href="#" class="text-body"><i class="icon-search4 font-size-base"></i></a>
+                        </div>
+
+                        <div class="dropdown-content-body dropdown-scrollable">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-success rounded-pill btn-icon"><i class="icon-mention"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <a href="#">Taylor Swift</a> mentioned you in a post "Angular JS. Tips and tricks"
+                                        <div class="font-size-sm text-muted mt-1">4 minutes ago</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-pink rounded-pill btn-icon"><i class="icon-paperplane"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        Special offers have been sent to subscribed users by <a href="#">Donna Gordon</a>
+                                        <div class="font-size-sm text-muted mt-1">36 minutes ago</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-primary rounded-pill btn-icon"><i class="icon-plus3"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <a href="#">Chris Arney</a> created a new <span class="font-weight-semibold">Design</span> branch in <span class="font-weight-semibold">Limitless</span> repository
+                                        <div class="font-size-sm text-muted mt-1">2 hours ago</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-purple rounded-pill btn-icon"><i class="icon-truck"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        Shipping cost to the Netherlands has been reduced, database updated
+                                        <div class="font-size-sm text-muted mt-1">Feb 8, 11:30</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-warning rounded-pill btn-icon"><i class="icon-comment"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        New review received on <a href="#">Server side integration</a> services
+                                        <div class="font-size-sm text-muted mt-1">Feb 2, 10:20</div>
+                                    </div>
+                                </li>
+
+                                <li class="media">
+                                    <div class="mr-3">
+                                        <a href="#" class="btn btn-teal rounded-pill btn-icon"><i class="icon-spinner11"></i></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <strong>January, 2018</strong> - 1320 new users, 3284 orders, $49,390 revenue
+                                        <div class="font-size-sm text-muted mt-1">Feb 1, 05:46</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown-content-footer bg-light">
+                            <a href="#" class="text-body mr-auto">All activity</a>
+                            <div>
+                                <a href="#" class="text-body" data-popup="tooltip" title="Clear list"><i class="icon-checkmark3"></i></a>
+                                <a href="#" class="text-body ml-2" data-popup="tooltip" title="Settings"><i class="icon-gear"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @*<footer class="border-top footer bottom text-muted">
+            <div class="container">
+                &copy; 2021 - PAESP - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
+    <script src="~/js/main/jquery.min.js"></script>
+    <script src="~/js/main/bootstrap.bundle.min.js"></script>
+    <script src="~/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="~/js/plugins/tables/footable/footable.min.js"></script>
+    <script src="~/js/plugins/ui/moment/moment.min.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.date.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/picker.time.js"></script>
+    <script src="~/js/plugins/pickers/pickadate/legacy.js"></script>
+    <script src="~/js/plugins/ui/moment/moment.min.js"></script>
+    <script src="~/js/plugins/ui/moment/moment_locales.min.js"></script>
+    <script src="~/js/plugins/forms/validation/validate.min.js"></script>
+    <script src="~/js/plugins/forms/validation/localization/messages_es.js"></script>
+    <script src="~/js/plugins/notifications/sweet_alert.min.js"></script>
+    <script src="~/scripts/utilidades.js"></script>
+    <script src="~/scripts/validacionesExtras.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+
+</html>
