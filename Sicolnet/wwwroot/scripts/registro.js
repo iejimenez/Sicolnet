@@ -81,7 +81,7 @@ class RegistroView {
             items_html += `<option value="${item.idMunicipio}">${item.nombre} [${item.departamento.nombre}]</option>`;
         });
         this.$selectMunicipios.html(items_html);
-        this.$selectMunicipios.select2();
+        this.$selectMunicipios.select2({ dropdownAutoWidth: true });
 
     }
 
@@ -105,6 +105,18 @@ class RegistroView {
         });
     }
 
+    testSwal() {
+        swal.fire({
+            title: "¡Registro exitoso!",
+            type: "success",
+            allowOutsideClick: false,
+            confirmButtonText: "Ingresar",
+            customClass: {
+                confirmButton: "btn btn-secondary"
+            }
+        });
+    }
+
     async clickBtnRegistroHandler() {
         if (this.formValidator[this.REGISTRAR_FORM].form()) {
             ShowLoading(true);
@@ -112,8 +124,8 @@ class RegistroView {
             if (!tokenResult.is_Error) {
                 console.log(tokenResult);
                 Swal.fire({
-                    title: "¡Codigo generado!",
-                    html: "Se ha enviado un código electrónico a el numero celular registrado para validar su registro.",
+                    title: "¡Código de validación!",
+                    html: "<br/>Ingrese el código que fue enviado a su número de celular para validar el registro.",
                     input: 'text',
                     showCancelButton: true,
                     closeOnConfirm: false,
@@ -121,11 +133,16 @@ class RegistroView {
                     cancelButtonText: "Cancelar",
                     animation: "slide-from-top",
                     allowOutsideClick: false,
-                    inputPlaceholder: "Ingrese Token",
+                    inputPlaceholder: "Ingrese el código",
                     inputAttributes: {
                         autocapitalize: 'off'
                     },
                     allowOutsideClick: false,
+                    customClass: {
+                        input: "form-control text-center",
+                        cancelButton: "btn border-secondary text-secondary",
+                        confirmButton: "btn btn-secondary"
+                    }
                 }).then(async (result) => {
                     if (result.value) {
                         if (result.value === false) return false;
@@ -136,11 +153,13 @@ class RegistroView {
                         const registerResult = await this.postRegistrar(result.value);
                         if (!registerResult.is_Error) {
                             swal.fire({
-                                title: "¡Error!",
-                                text: "¡Registrado correctamente!",
-                                confirmButtonColor: "#66BB6A",
+                                title: "¡Registro exitoso!",
                                 type: "success",
-                                allowOutsideClick: false
+                                allowOutsideClick: false,
+                                confirmButtonText: "Ingresar",
+                                customClass: {
+                                    confirmButton: "btn btn-secondary"
+                                }
                             }).then(() => {
                                 window.location.href = SetUrlForQuery('/')
                             });
@@ -148,8 +167,10 @@ class RegistroView {
                             swal.fire({
                                 title: "¡Error!",
                                 text: registerResult.msj,
-                                confirmButtonColor: "#66BB6A",
-                                type: "error"
+                                type: "error",
+                                customClass: {
+                                    confirmButton: "btn btn-secondary"
+                                }
                             });
                         }
                     }
@@ -158,8 +179,10 @@ class RegistroView {
                 swal.fire({
                     title: "¡Error!",
                     text: tokenResult.msj,
-                    confirmButtonColor: "#66BB6A",
-                    type: "error"
+                    type: "error",
+                    customClass: {
+                        confirmButton: "btn btn-secondary"
+                    }
                 });
             }
         }

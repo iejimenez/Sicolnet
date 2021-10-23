@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Sicolnet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,13 @@ namespace Sicolnet.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+
+        public JsonResult TestRecortador(string url)
+        {
+            
+            return Json(UrlShorter.ShortUrl(url));
         }
     }
 }

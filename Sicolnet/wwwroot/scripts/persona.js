@@ -4,6 +4,7 @@ class PersonaView {
     constructor() {
         this.clickBtnConsultarHandler = this.clickBtnConsultarHandler.bind(this);
         this.postGetAllData = this.postGetAllData.bind(this);
+        this.cerrarSession = this.cerrarSession.bind(this);
 
         this._initHtml()
         this._initConstants()
@@ -19,6 +20,7 @@ class PersonaView {
         this.$lblAmigos = $("#lblAmigos");
         this.$linkWap = $("#linkWap");
         this.$lblEnlace = $("#lblEnlace");
+        this.$lblSalir = $("#lblSalir");
         this.$btnConsultar = $("#btnConsultar");
     }
 
@@ -35,10 +37,15 @@ class PersonaView {
         //    inputChangeHandlerFunction.call(this, event);
         //});
         this.$btnConsultar.on("click", this.clickBtnConsultarHandler);
+        this.$lblSalir.on("click", this.cerrarSession);
     }
 
     _init() {
         createValidation.call(this, this.CONSULTAR_FORM, this.getValidationConfig());
+        if (sessionStorage.publicSessionLast) {
+            this.postGetAllData("NVD");
+        }
+        
     }
 
     getValidationConfig() {
@@ -52,6 +59,32 @@ class PersonaView {
         return validationConfig;
     }
 
+    cerrarSession() {
+        sessionStorage.removeItem("publicSessionLast");
+        window.location.reload();
+    }
+
+    testSwal() {
+        Swal.fire({
+            title: "¡Atención!",
+            html: "<br/>Este número de cédula no se encuentra registrado.",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Regístrate",
+            cancelButtonText: "Cancelar",
+            animation: "slide-from-top",
+            allowOutsideClick: false,
+            customClass: {
+                cancelButton: "btn border-secondary text-secondary",
+                confirmButton: "btn btn-secondary"
+            }
+        }).then(async (result) => {
+            if (result.value) {
+                window.location.href = "/Registro";
+            }
+        });
+    }
+
     async clickBtnConsultarHandler() {
         if (this.formValidator[this.CONSULTAR_FORM].form()) {
             ShowLoading(true);
@@ -59,8 +92,8 @@ class PersonaView {
             if (!tokenResult.is_Error) {
                 console.log(tokenResult);
                 Swal.fire({
-                    title: "¡Codigo generado!",
-                    html: "Se ha enviado un código electrónico a el numero celular registrado para validar su identidad.",
+                    title: "¡Código de validación!",
+                    html: "<br/>Ingrese el código que fue enviado a su número de celular para validar el ingreso.",
                     input: 'text',
                     showCancelButton: true,
                     closeOnConfirm: false,
@@ -72,6 +105,11 @@ class PersonaView {
                     inputAttributes: {
                         autocapitalize: 'off'
                     },
+                    customClass: {
+                        input: "form-control text-center",
+                        cancelButton: "btn border-secondary text-secondary",
+                        confirmButton: "btn btn-secondary"
+                    },
                     allowOutsideClick: false,
                 }).then(async (result) => {
                     if (result.value) {
@@ -80,22 +118,48 @@ class PersonaView {
                             swal.showInputError("Por favor ingrese un valor valido!");
                             return false;
                         }
+                        sessionStorage.setItem("publicSessionLast", this.$inputCedula.val());
                         this.postGetAllData(result.value);
                     }
                 });
             } else {
-                swal.fire({
-                    title: "¡Error!",
-                    text: tokenResult.msj,
-                    confirmButtonColor: "#66BB6A",
-                    type: "error"
-                });
+                if (tokenResult.order_Switch == -1) {
+                    Swal.fire({
+                        title: "¡Atención!",
+                        html: "<br/>Este número de cédula no se encuentra registrado.",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "Regístrate",
+                        cancelButtonText: "Cancelar",
+                        animation: "slide-from-top",
+                        allowOutsideClick: false,
+                        customClass: {
+                            cancelButton: "btn border-secondary text-secondary",
+                            confirmButton: "btn btn-secondary"
+                        }
+                    }).then(async (result) => {
+                        if (result.value) {
+                            window.location.href = "/Registro";
+                        }
+                    });
+                } else {
+                    swal.fire({
+                        title: "¡Error!",
+                        text: tokenResult.msj,
+                        type: "error",
+                        customClass: {
+                            confirmButton: "btn btn-secondary"
+                        }
+                    });
+                }
             }
         }
     }
 
     async postGetAllData(token) {
-        const tokenResult = await fetchGet(this.API_GET_DATA, { "cedula": this.$inputCedula.val(), "token": token });
+
+        const cedula = sessionStorage.publicSessionLast ? sessionStorage.publicSessionLast : this.$inputCedula.val();
+        const tokenResult = await fetchGet(this.API_GET_DATA, { "cedula": cedula, "token": token });
         if (!tokenResult.is_Error) {
             this.data = tokenResult.objeto;
             this.data.url = SetUrlForQuery("/Registro/Index?Id=" + this.data.idEnlace);

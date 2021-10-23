@@ -10,58 +10,74 @@
     <script type="module">
         import PersonaView from '../scripts/persona.js'
         $(document).ready(() => {
-            const personaView = new PersonaView();
+            window.personaView = new PersonaView();
         });
     </script>
 }
 
 
 
-<div class="row mt-5">
+<div class="row">
 
     <div class="col-xl-12">
-        <div class="card">
-            <div class="card-header">
-                <h2>Consulta</h2>
-            </div>
+        <div class="card border-0 shadow-none">
             <div class="card-body">
                 <form id="form-consulta-persona" name="form-consulta-persona">
                     <div class="row">
-                        <div class="col-xl-2">
-                            <div class="form-group">
-                                <input type="text" id="txtCedula" name="cedula" class="form-control change" data-model="registro" placeholder="Cedula de ciudadania">
+                        <div class="col-xl-12">
+                            <div class="text-center mb-3">
+                                <i class="icon-check2 icon-2x text-primary border-primary border-3 rounded-pill p-3 mb-3 mt-1"></i>
+                                <span class="d-block text-muted">
+                                    Ingresa y haz parte del cambio
+                                </span>
                             </div>
                         </div>
-                        <div class="col-xl-2">
-                            <button type="button" id="btnConsultar" class="btn btn-info"> Consultar</button>
+                    </div>
+                    <div class="row">
+                        <div class="offset-md-4 col-md-4 text-center">
+                            <div class="form-group">
+                                <input type="text" id="txtCedula" name="cedula" class="form-control text-center change" data-model="registro" placeholder="Cédula de ciudadanía">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-md-4 col-md-4 text-center">
+                            <button type="button" id="btnConsultar" class="btn btn-primary text-center">Ingresar</button>
                         </div>
                     </div>
                 </form>
-
+               
+                
+                
                 <div class="row d-none" id="divContentConsulta">
-                    <div class="offset-1 col-xl-10">
+                    <div class="col-12">
                         <div class="row">
-                            <div class="col-xl-12">
-                                <h3><span id="lblNombre"></span> Bienvenido a Fz</h3>
-                                <h4>Tienes <span class="font-size-lg" id="lblAmigos"></span> amig@s que creen en este proyecto</h4>
+                            <div class="col-10">
+                                <strong> Bienvenido, <span id="lblNombre"></span></strong>
+                            </div>
+                            <div class="col-2 text-right">
+                                <a href="#" id="lblSalir">Salir</a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="mt-4 badge badge-primary even-larger-badge px-2 d-inline-block" id="lblAmigos"></span>
+                                <p class="mt-2 ml-2 d-inline-block">De tus amigos creen en este proyecto, y estamos seguros <br /> de que pueden ser más.</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-12">
-                                <p>Estamos seguros que pueden ser más:</p>
-                                <p>Invita a tus amigos <a href="#" id="linkWap" data-action="share/whatsapp/share" class="badge badge-secondary badge-pill p-1"><i class="fab fa-whatsapp  fa-2x"></i></a></p>
-                                
+                            <div class="col-12">
+                                <p class="mt-4">Invita a tus amigos <a href="#" id="linkWap" data-action="share/whatsapp/share" class="badge badge-secondary ml-3 p-0 bg-white"><img src="~/images/whatappIcon.png"/></a></p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xl-12">
-                                <p>Enlace para difundir en tus redes:</p>
+                            <div class="col-12">
+                                <p class="text-justify mt-4">Puedes utilizar este enlace para difundir en tus redes o para registrar directamente a tus amigos </p>
                                 <a id="lblEnlace" target="_blank"></a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <p>Recuerda que quieenes se inscriban a traves del enlace que compartas seran parte de tus amigos.</p>
+                                <p class="text-justify mt-2">
+                                    Recuerda que quienes se inscriban a través de tus invitaciones o del enlace que compartas harán serán parte de tus amigos.
+                                </p>
                             </div>
                         </div>
                     </div>

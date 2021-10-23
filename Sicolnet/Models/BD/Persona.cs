@@ -1,6 +1,7 @@
 ﻿using Sicolnet.Models.BD;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -35,6 +36,12 @@ namespace Sicolnet.Models.BD
         public int IdReferente { get; set; }
 
         public int IdEstado { get; set; }
+
+        [DefaultValue("")]
+        public string ShortUrl { get; set; }
+
+        [DefaultValue(" ")]
+        public string ShortUrlToken { get; set; }
 
         public DateTime FechaRegistro { get; set; }
 

@@ -89,6 +89,12 @@ namespace Sicolnet.Controllers
             AjaxData retorno = new AjaxData();
             try
             {
+
+                Persona personaDB = dBContext.Personas.Where(p => p.Cedula == cedula).FirstOrDefault();
+
+                if (personaDB != null)
+                    throw new Exception("Esa cedula ya se encuentra registrada.");
+
                 Token token = dBContext.Tokens.Where(t => t.Celular == celular && t.Cedula == cedula).FirstOrDefault();
                 if(token!= null)
                 {
@@ -156,7 +162,9 @@ namespace Sicolnet.Controllers
                 }
                 else
                 {
-                    throw new Exception("Cedula no encontrada.");
+                    retorno.Msj = "Cedula no encontrada.";
+                    retorno.Is_Error = true;
+                    retorno.Order_Switch = -1;
                 }
             }
             catch (Exception ex)
@@ -183,8 +191,18 @@ namespace Sicolnet.Controllers
 
                 Token tokendb = dBContext.Tokens.Where(t => t.Celular == p.Celular && t.Cedula == p.Cedula).FirstOrDefault();
                 if (tokendb != null)
-                    dBContext.Tokens.Remove(tokendb);
-                else
+                {
+                    if (tokendb.Key.ToString() == token)
+                    {
+                        dBContext.Tokens.Remove(tokendb);
+                        dBContext.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("Token invalido");
+                    }
+                }
+                else if (token != "NVD")
                     throw new Exception("Token invalido");
                 int contarAmigos = ContarRamas(p.IdPersona);
                 retorno.Objeto = new

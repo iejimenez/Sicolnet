@@ -26,7 +26,8 @@ namespace Sicolnet.Models.Dtos
         public int IdReferente { get; set; }
 
         public int IdEstado { get; set; }
-
+        public string ShortUrl { get; set; }
+        public string ShortUrlToken { get; set; }
         public DateTime FechaRegistro { get; set; }
 
         public DateTime FechaUltimaModificacion { get; set; }

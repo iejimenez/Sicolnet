@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sicolnet.Models.BD;
 
 namespace Sicolnet.Migrations
 {
     [DbContext(typeof(SicolnetDBContext))]
-    partial class SicolnetDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211023073812_2021_10_23_0238AM")]
+    partial class _2021_10_23_0238AM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
