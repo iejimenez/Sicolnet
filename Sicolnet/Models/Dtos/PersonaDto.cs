@@ -24,7 +24,7 @@ namespace Sicolnet.Models.Dtos
         public DateTime FechaNacimiento { get; set; }
 
         public int IdReferente { get; set; }
-
+        public int NumeroInvitados { get; set; }
         public int IdEstado { get; set; }
         public string ShortUrl { get; set; }
         public string ShortUrlToken { get; set; }

@@ -15,10 +15,20 @@ namespace Sicolnet.Controllers
         }
 
 
-        public JsonResult TestRecortador(string url)
+        public async Task<JsonResult> TestShorter()
         {
-            
-            return Json(UrlShorter.ShortUrl(url));
+            try
+            {
+
+                UrlShorterResponse response = await UrlShorter.ShortUrl("https://localhost:44319/Registro/Index?Id=Uk1DaUN4WXIzSEU4NnBjQ3dkZkRDQT09");
+                return Json(response);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex);
+            }
+       
         }
     }
 }

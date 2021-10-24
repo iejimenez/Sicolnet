@@ -5,6 +5,8 @@ class PersonaView {
         this.clickBtnConsultarHandler = this.clickBtnConsultarHandler.bind(this);
         this.postGetAllData = this.postGetAllData.bind(this);
         this.cerrarSession = this.cerrarSession.bind(this);
+        this.clickBtnCopyUrlToClipboardHandler = this.clickBtnCopyUrlToClipboardHandler.bind(this);
+        this.renderTableFriends = this.renderTableFriends.bind(this);
 
         this._initHtml()
         this._initConstants()
@@ -22,25 +24,24 @@ class PersonaView {
         this.$lblEnlace = $("#lblEnlace");
         this.$lblSalir = $("#lblSalir");
         this.$btnConsultar = $("#btnConsultar");
+        this.$btnCopyUrl = $("#btnCopyUrl");
     }
 
     _initConstants() {
         this.CONSULTAR_FORM = 'form-consulta-persona';
-        //this.API_GET_MUNICIPIOS = SetUrlForQuery('/Municipio/GetMunicipios');
-        //this.API_POST_REGISTRADO = SetUrlForQuery('/Registro/Save');
         this.API_GET_CONSULTA = SetUrlForQuery('/Registro/ConsutarPersona');
         this.API_GET_DATA = SetUrlForQuery("/Registro/ConsultarArbolPersona");
+        this.IdTableFriends = "datatable-friends";
     }
 
     _initEventBindings() {
-        //$(`#${this.REGISTRAR_FORM} .change`).on("change", (event) => {
-        //    inputChangeHandlerFunction.call(this, event);
-        //});
         this.$btnConsultar.on("click", this.clickBtnConsultarHandler);
+        this.$btnCopyUrl.on("click", this.clickBtnCopyUrlToClipboardHandler);
         this.$lblSalir.on("click", this.cerrarSession);
     }
 
     _init() {
+        this.friendsTable = null;
         createValidation.call(this, this.CONSULTAR_FORM, this.getValidationConfig());
         if (sessionStorage.publicSessionLast) {
             this.postGetAllData("NVD");
@@ -157,23 +158,57 @@ class PersonaView {
     }
 
     async postGetAllData(token) {
-
+        ShowLoading(true);
         const cedula = sessionStorage.publicSessionLast ? sessionStorage.publicSessionLast : this.$inputCedula.val();
         const tokenResult = await fetchGet(this.API_GET_DATA, { "cedula": cedula, "token": token });
         if (!tokenResult.is_Error) {
             this.data = tokenResult.objeto;
-            this.data.url = SetUrlForQuery("/Registro/Index?Id=" + this.data.idEnlace);
-
+            this.persona = this.data.persona;
+            this.amigos = this.data.amigos;
             this.$divContentConsulta.removeClass("d-none");
             this.$formConsulta.addClass("d-none");
             this.$lblNombre.html(this.data.persona.nombres);
             this.$lblAmigos.html(this.data.numeroAmigos);
-            this.$lblEnlace.html(this.data.url);
+            this.$lblEnlace.html(this.data.persona.shortUrl);
 
-            this.$lblEnlace.attr("href", this.data.url);
-            this.$linkWap.attr("href", "whatsapp://send?text=" + this.data.url);
-           
+            this.$lblEnlace.attr("href", this.data.persona.shortUrl);
+            this.$linkWap.attr("href", "whatsapp://send?text=" + this.data.persona.shortUrl);
+            this.renderTableFriends();
         }
+        CloseLoading();
+    }
+
+    clickBtnCopyUrlToClipboardHandler() {
+        navigator.clipboard.writeText(this.persona.shortUrl);
+    }
+
+    renderTableFriends() {
+        if (this.friendsTable != undefined && this.friendsTable != null) {
+            this.friendsTable.clear().draw();
+            this.friendsTable.destroy();
+        }
+        RenderTable(this.IdTableFriends, [0, 1, 2], [
+            {
+                data: 'nombres', className: "dt-left", render: (data, type, row) => {
+                    return data + " " + row.apellidos;
+                }
+            },
+            { data: 'celular', className: "dt-center" },
+            { data: 'numeroInvitados', className: "dt-center"},
+           ], {
+            data: this.amigos,
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false,
+            "dom": '<"top"fl>rt<"bottom"ip><"clear">',
+            "bSort": false
+        });
+
+        console.log($(`#${this.IdTableFriends} .review`));
+
+
+        this.friendsTable = $("#" + this.IdTableFriends).DataTable();
     }
 }
 

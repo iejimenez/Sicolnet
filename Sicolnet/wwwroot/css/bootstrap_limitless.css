@@ -376,13 +376,13 @@ pre {
     border-bottom: 1px solid #b7b7b7; }
   .table tfoot th {
     border-top-color: #b7b7b7; }
-  .table caption + thead tr:first-child th,
+  /*.table caption + thead tr:first-child th,
   .table caption + thead tr:first-child td,
   .table colgroup + thead tr:first-child th,
   .table colgroup + thead tr:first-child td,
   .table thead:first-child tr:first-child th,
   .table thead:first-child tr:first-child td {
-    border-top-width: 0; }
+    border-top-width: 0; }*/
   .table tr,
   .table th,
   .table td {

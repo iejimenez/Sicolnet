@@ -176,7 +176,7 @@ namespace Sicolnet.Controllers
             return Json(retorno);
         }
 
-        public JsonResult ConsultarArbolPersona(string cedula, string token)
+        public async Task<JsonResult> ConsultarArbolPersona(string cedula, string token)
         {
             AjaxData retorno = new AjaxData();
             try
@@ -187,8 +187,9 @@ namespace Sicolnet.Controllers
                 if (string.IsNullOrEmpty(token))
                     throw new Exception("Petición invalida.");
 
-                PersonaDto p = _mapper.Map<PersonaDto>(dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault());
-
+                Persona dboPersona = dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault();
+                PersonaDto p = _mapper.Map<PersonaDto>(dboPersona);
+                
                 Token tokendb = dBContext.Tokens.Where(t => t.Celular == p.Celular && t.Cedula == p.Cedula).FirstOrDefault();
                 if (tokendb != null)
                 {
@@ -204,12 +205,29 @@ namespace Sicolnet.Controllers
                 }
                 else if (token != "NVD")
                     throw new Exception("Token invalido");
-                int contarAmigos = ContarRamas(p.IdPersona);
+
+                if (string.IsNullOrEmpty(p.ShortUrl))
+                {
+                    string Urldomain = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host;
+                    string id = Convert.ToBase64String(Encoding.UTF8.GetBytes(Encriptador.Encriptar(p.IdPersona.ToString())));
+                    UrlShorterResponse resultShorter = await UrlShorter.ShortUrl(Urldomain + "/Registro/Index?Id=" + id);
+                    if (resultShorter.error == null)
+                    {
+                        dboPersona.ShortUrlToken = resultShorter.data.token;
+                        dboPersona.ShortUrl = resultShorter.data.short_url;
+                        p.ShortUrl = dboPersona.ShortUrl;
+                        p.ShortUrlToken = dboPersona.ShortUrlToken;
+                        dBContext.SaveChanges();
+                    }
+                }
+
+                List<PersonaDto> amigos = InvitadosDirectos(p.IdPersona);
+                int contarAmigos = amigos.Count + amigos.Sum(p => p.NumeroInvitados);
                 retorno.Objeto = new
                 {
-                    IdEnlace = Convert.ToBase64String(Encoding.UTF8.GetBytes(Encriptador.Encriptar(p.IdPersona.ToString()))),
                     NumeroAmigos = contarAmigos,
-                    Persona = p
+                    Persona = p,
+                    Amigos = amigos.OrderBy(s=>s.Nombres).ToList()
                 };
             }
             catch (Exception ex)
@@ -222,12 +240,26 @@ namespace Sicolnet.Controllers
             //string url = "whatsapp://send?text=https://www.anerbarrena.com/boton-compartir-whatsapp-4801/";
         }
 
+        private List<PersonaDto> InvitadosDirectos(int idPersona)
+        {
+            List<PersonaDto> personas = _mapper.Map<List<PersonaDto>>(dBContext.Personas.Where(p => p.IdReferente == idPersona && p.IdPersona != idPersona).ToList());
+            int contar = 0;
+            foreach (PersonaDto p in personas)
+            {
+                contar += 1;
+                p.NumeroInvitados = ContarRamas(p.IdPersona);
+                contar += p.NumeroInvitados;
+            }
+            return personas;
+        }
+
         private int ContarRamas(int idPersona)
         {
-            int contar = 1;
+            int contar = 0;
             List<PersonaDto> personas = _mapper.Map<List<PersonaDto>>(dBContext.Personas.Where(p => p.IdReferente == idPersona && p.IdPersona != idPersona).ToList());
             foreach(PersonaDto p in personas)
             {
+                contar += 1;
                 contar += ContarRamas(p.IdPersona); 
             }
             return contar;

@@ -54,6 +54,13 @@ namespace Sicolnet.Models.BD
             this.SaveChanges();
             return persona;
         }
+
+        public Persona UpdatePersona(Persona persona)
+        {
+            this.Personas.Update(persona);
+            this.SaveChanges();
+            return persona;
+        }
         #endregion
 
     }

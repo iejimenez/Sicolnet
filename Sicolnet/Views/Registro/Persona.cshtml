@@ -7,6 +7,9 @@
 
 
 @section Scripts {
+    <script src="~/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script src="~/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
+
     <script type="module">
         import PersonaView from '../scripts/persona.js'
         $(document).ready(() => {
@@ -46,9 +49,9 @@
                         </div>
                     </div>
                 </form>
-               
-                
-                
+
+
+
                 <div class="row d-none" id="divContentConsulta">
                     <div class="col-12">
                         <div class="row">
@@ -61,29 +64,53 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-12">
-                                <span class="mt-4 badge badge-primary even-larger-badge px-2 d-inline-block" id="lblAmigos"></span>
-                                <p class="mt-2 ml-2 d-inline-block">De tus amigos creen en este proyecto, y estamos seguros <br /> de que pueden ser más.</p>
+                            <div class="col-2 col-lg-1">
+                                <span class="mt-3 badge badge-primary even-larger-badge px-2" id="lblAmigos"></span>
+                            </div>
+                            <div class="col-10 pt-1 col-lg-11">
+                                <p class="mt-4 ml-2  text-justify line-height-1">De tus amigos creen en este proyecto,<br class="d-none d-lg-block" /> y estamos seguros de que pueden ser más.</p>
+
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p class="mt-4">Invita a tus amigos <a href="#" id="linkWap" data-action="share/whatsapp/share" class="badge badge-secondary ml-3 p-0 bg-white"><img src="~/images/whatappIcon.png"/></a></p>
+                                <p class="mt-4">Invita a tus amigos <a href="#" id="linkWap" data-action="share/whatsapp/share" class="badge badge-secondary ml-3 p-0 bg-white"><img src="~/images/whatappIcon.png" /></a></p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <p class="text-justify mt-4">Puedes utilizar este enlace para difundir en tus redes o para registrar directamente a tus amigos </p>
-                                <a id="lblEnlace" target="_blank"></a>
+                                <a id="lblEnlace" target="_blank"></a> <a class="ml-2" title="Copiar" id="btnCopyUrl"><i class="icon-copy4 icon-2x"></i></a>
                                 <p class="text-justify mt-2">
-                                    Recuerda que quienes se inscriban a través de tus invitaciones o del enlace que compartas harán serán parte de tus amigos.
+                                    Recuerda que quienes se inscriban a través de tus invitaciones o del enlace que compartas harán parte de tus amigos.
                                 </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <strong class="font-size-sm">Mis Amigos</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table font-size-xs line-height-1 table-bordered table-xs" id="datatable-friends">
+                                        <thead class="bg-secondary">
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Celular</th>
+                                                <th>Amigos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
-    
-</div>

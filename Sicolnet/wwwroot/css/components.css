@@ -14132,3 +14132,26 @@ iframe.wait-autoplay {
   background-color: #fafafa;
   border-radius: 0.25rem;
   box-shadow: 0 0 0 0 #2196F3; }
+
+.dt-center {
+    text-align: center;
+    align-content: center;
+}
+
+.dt-right {
+    text-align: right;
+    align-content: flex-end;
+}
+
+th.dt-right {
+    text-align: center;
+}
+
+.dt-left {
+    text-align: left;
+    align-content: flex-start;
+}
+
+th.dt-left {
+    text-align: center;
+}

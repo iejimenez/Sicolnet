@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,6 +9,33 @@ using System.Threading.Tasks;
 
 namespace Sicolnet.Utils
 {
+
+    public class UrlShort
+    {
+        public string token { get; set; }
+        public string short_url { get; set; }
+        public string url { get; set; }
+
+    }
+
+    public struct Trace { 
+        public string name { get; set; }
+        public string version { get; set; } 
+    }
+
+    public class UrlShortError
+    {
+        public string code { get; set; }
+        public string details { get; set; }
+        public List<Trace> trace { get; set; }
+    }
+
+    public class UrlShorterResponse
+    {
+        public UrlShort  data { get; set; }
+        public UrlShortError error { get; set; }
+    }
+
     public class UrlShorter
     {
         private static readonly HttpClient client = new HttpClient();
@@ -23,10 +51,9 @@ namespace Sicolnet.Utils
             Token = _token;
         }
 
-        public static async Task<string> ShortUrl(string url)
+        public static async Task<UrlShorterResponse> ShortUrl(string url)
         {
            
-            var content = new StringContent("https://api103.hablame.co/api/url-shortener/v1");
 
             client.DefaultRequestHeaders.Add("account", Account);
             client.DefaultRequestHeaders.Add("apikey", ApiKey);
@@ -38,10 +65,11 @@ namespace Sicolnet.Utils
             StringContent strc = new StringContent(jsondata,
                                                     Encoding.UTF8,
                                                     "application/json");
-            var response = await client.PostAsync("https://api103.hablame.co/api/url-shortener/v1", content);
+            var response = await client.PostAsync("https://api103.hablame.co/api/url-shortener/v1/token", strc);
 
             var responseString = await response.Content.ReadAsStringAsync();
-            return responseString;
+            UrlShorterResponse rr = JsonConvert.DeserializeObject<UrlShorterResponse>(responseString);
+            return rr;
         }
     }
 }

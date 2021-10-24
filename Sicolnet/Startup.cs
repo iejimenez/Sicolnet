@@ -41,6 +41,8 @@ namespace Sicolnet
             });
 
             SmsSender.SetConfig(Configuration.GetValue<string>("SmsAccount"), Configuration.GetValue<string>("SmsApiKey"), Configuration.GetValue<string>("SmsToken"));
+            UrlShorter.SetConfig(Configuration.GetValue<string>("SmsAccount"), Configuration.GetValue<string>("SmsApiKey"), Configuration.GetValue<string>("SmsToken"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
