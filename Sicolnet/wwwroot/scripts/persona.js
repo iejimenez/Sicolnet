@@ -43,7 +43,7 @@ class PersonaView {
     _init() {
         this.friendsTable = null;
         createValidation.call(this, this.CONSULTAR_FORM, this.getValidationConfig());
-        if (sessionStorage.publicSessionLast) {
+        if (localStorage .publicSessionLast) {
             this.postGetAllData("NVD");
         }
         
@@ -61,7 +61,7 @@ class PersonaView {
     }
 
     cerrarSession() {
-        sessionStorage.removeItem("publicSessionLast");
+        localStorage .removeItem("publicSessionLast");
         window.location.reload();
     }
 
@@ -119,7 +119,7 @@ class PersonaView {
                             swal.showInputError("Por favor ingrese un valor valido!");
                             return false;
                         }
-                        sessionStorage.setItem("publicSessionLast", this.$inputCedula.val());
+                        localStorage .setItem("publicSessionLast", this.$inputCedula.val());
                         this.postGetAllData(result.value);
                     }
                 });
@@ -159,7 +159,7 @@ class PersonaView {
 
     async postGetAllData(token) {
         ShowLoading(true);
-        const cedula = sessionStorage.publicSessionLast ? sessionStorage.publicSessionLast : this.$inputCedula.val();
+        const cedula = localStorage .publicSessionLast ? localStorage .publicSessionLast : this.$inputCedula.val();
         const tokenResult = await fetchGet(this.API_GET_DATA, { "cedula": cedula, "token": token });
         if (!tokenResult.is_Error) {
             this.data = tokenResult.objeto;

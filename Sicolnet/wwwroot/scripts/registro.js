@@ -6,6 +6,7 @@ class RegistroView {
         this.postRegistrar = this.postRegistrar.bind(this);
         this.postGenerarToken = this.postGenerarToken.bind(this);
         this.setMunicipios = this.setMunicipios.bind(this);
+        this.registrar = this.registrar.bind(this);
 
         this._initHtml()
         this._initConstants()
@@ -120,71 +121,79 @@ class RegistroView {
     async clickBtnRegistroHandler() {
         if (this.formValidator[this.REGISTRAR_FORM].form()) {
             ShowLoading(true);
-            const tokenResult = await this.postGenerarToken();
-            if (!tokenResult.is_Error) {
-                console.log(tokenResult);
-                Swal.fire({
-                    title: "¡Código de validación!",
-                    html: "<br/>Ingrese el código que fue enviado a su número de celular para validar el registro.",
-                    input: 'text',
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "Aceptar",
-                    cancelButtonText: "Cancelar",
-                    animation: "slide-from-top",
-                    allowOutsideClick: false,
-                    inputPlaceholder: "Ingrese el código",
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    allowOutsideClick: false,
-                    customClass: {
-                        input: "form-control text-center",
-                        cancelButton: "btn border-secondary text-secondary",
-                        confirmButton: "btn btn-secondary"
-                    }
-                }).then(async (result) => {
-                    if (result.value) {
-                        if (result.value === false) return false;
-                        if (result.value === "") {
-                            swal.showInputError("Por favor ingrese un valor valido!");
-                            return false;
+            if (!localStorage.publicSessionLast) {
+                const tokenResult = await this.postGenerarToken();
+                if (!tokenResult.is_Error) {
+                    console.log(tokenResult);
+                    Swal.fire({
+                        title: "¡Código de validación!",
+                        html: "<br/>Ingrese el código que fue enviado a su número de celular para validar el registro.",
+                        input: 'text',
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "Aceptar",
+                        cancelButtonText: "Cancelar",
+                        animation: "slide-from-top",
+                        allowOutsideClick: false,
+                        inputPlaceholder: "Ingrese el código",
+                        inputAttributes: {
+                            autocapitalize: 'off'
+                        },
+                        allowOutsideClick: false,
+                        customClass: {
+                            input: "form-control text-center",
+                            cancelButton: "btn border-secondary text-secondary",
+                            confirmButton: "btn btn-secondary"
                         }
-                        const registerResult = await this.postRegistrar(result.value);
-                        if (!registerResult.is_Error) {
-                            swal.fire({
-                                title: "¡Registro exitoso!",
-                                type: "success",
-                                allowOutsideClick: false,
-                                confirmButtonText: "Ingresar",
-                                customClass: {
-                                    confirmButton: "btn btn-secondary"
-                                }
-                            }).then(() => {
-                                window.location.href = SetUrlForQuery('/')
-                            });
-                        } else {
-                            swal.fire({
-                                title: "¡Error!",
-                                text: registerResult.msj,
-                                type: "error",
-                                customClass: {
-                                    confirmButton: "btn btn-secondary"
-                                }
-                            });
+                    }).then(async (result) => {
+                        if (result.value) {
+                            if (result.value === false) return false;
+                            if (result.value === "") {
+                                swal.showInputError("Por favor ingrese un valor valido!");
+                                return false;
+                            }
+                            await this.registrar(result);
                         }
-                    }
-                });
+                    });
+                } else {
+                    swal.fire({
+                        title: "¡Error!",
+                        text: tokenResult.msj,
+                        type: "error",
+                        customClass: {
+                            confirmButton: "btn btn-secondary"
+                        }
+                    });
+                }
             } else {
-                swal.fire({
-                    title: "¡Error!",
-                    text: tokenResult.msj,
-                    type: "error",
-                    customClass: {
-                        confirmButton: "btn btn-secondary"
-                    }
-                });
+                await this.registrar();
             }
+        }
+    }
+
+    async registrar(result) {
+        const registerResult = await this.postRegistrar(localStorage.publicSessionLast ? "NVD" : result.value);
+        if (!registerResult.is_Error) {
+            swal.fire({
+                title: "¡Registro exitoso!",
+                type: "success",
+                allowOutsideClick: false,
+                confirmButtonText: "Ingresar",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
+                }
+            }).then(() => {
+                window.location.href = SetUrlForQuery('/')
+            });
+        } else {
+            swal.fire({
+                title: "¡Error!",
+                text: registerResult.msj,
+                type: "error",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
+                }
+            });
         }
     }
 
