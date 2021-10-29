@@ -19,7 +19,7 @@ class PersonaView {
         this.$formConsulta = $("#form-consulta-persona");
         this.$divContentConsulta = $("#divContentConsulta");
         this.$lblNombre = $("#lblNombre");
-        this.$lblAmigos = $("#lblAmigos");
+        this.$lblAmigos = $(".lblAmigos");
         this.$linkWap = $("#linkWap");
         this.$lblEnlace = $("#lblEnlace");
         this.$lblSalir = $("#lblSalir");
@@ -46,7 +46,6 @@ class PersonaView {
         if (localStorage .publicSessionLast) {
             this.postGetAllData("NVD");
         }
-        
     }
 
     getValidationConfig() {
