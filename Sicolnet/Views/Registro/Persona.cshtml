@@ -11,7 +11,7 @@
     <script src="~/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
 
     <script type="module">
-        import PersonaView from '../scripts/persona.js'
+        import PersonaView from '../scripts/persona.js?v=1.0.3'
         $(document).ready(() => {
             window.personaView = new PersonaView();
         });
@@ -21,7 +21,6 @@
 
 
 <div class="row">
-
     <div class="col-xl-12">
         <div class="card border-0 shadow-none">
             <div class="card-body">
@@ -80,7 +79,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <p class="text-justify mt-4">Puedes utilizar este enlace para difundir en tus redes o para registrar directamente a tus amigos </p>
-                                <a id="lblEnlace" target="_blank"></a> <a class="ml-2" title="Copiar" id="btnCopyUrl"><i class="icon-copy4 icon-2x"></i></a>
+                                <a id="lblEnlace"></a> <a class="ml-2" title="Copiar" id="btnCopyUrl"><i class="icon-copy4 icon-2x"></i></a>
                             </div>
                         </div>
                         <div class="row">
@@ -88,7 +87,7 @@
                                 <strong class="font-size-sm">Mis Amigos</strong>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-5">
                             <div class="col-12">
                                 <div class="table-responsive">
                                     <table class="table font-size-xs line-height-1 table-bordered table-xs" id="datatable-friends">
@@ -111,3 +110,4 @@
         </div>
 
     </div>
+</div>

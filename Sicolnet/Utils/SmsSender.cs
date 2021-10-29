@@ -40,7 +40,8 @@ namespace Sicolnet.Utils
                     { "apiKey", ApiKey },
                     { "sms", text },
                     { "token", Token },
-                    { "toNumber", numeros }
+                    { "toNumber", numeros },
+                    {"isPriority", "1" }
                 };
 
                 var content = new FormUrlEncodedContent(values);
@@ -59,7 +60,8 @@ namespace Sicolnet.Utils
                     { "apiKey", ApiKey },
                     { "sms", text },
                     { "token", Token },
-                    { "toNumber", numeros }
+                    { "toNumber", numeros },
+                    {"isPriority", "1" }
             };
 
             var content = new FormUrlEncodedContent(values);

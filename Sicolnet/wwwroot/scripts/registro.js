@@ -1,6 +1,4 @@
-﻿
-
-class RegistroView {
+﻿class RegistroView {
     constructor() {
         this.clickBtnRegistroHandler = this.clickBtnRegistroHandler.bind(this);
         this.postRegistrar = this.postRegistrar.bind(this);

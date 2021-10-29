@@ -159,7 +159,7 @@ class PersonaView {
 
     async postGetAllData(token) {
         ShowLoading(true);
-        const cedula = localStorage .publicSessionLast ? localStorage .publicSessionLast : this.$inputCedula.val();
+        const cedula = localStorage.publicSessionLast ? localStorage.publicSessionLast : this.$inputCedula.val();
         const tokenResult = await fetchGet(this.API_GET_DATA, { "cedula": cedula, "token": token });
         if (!tokenResult.is_Error) {
             this.data = tokenResult.objeto;
@@ -174,6 +174,15 @@ class PersonaView {
             this.$lblEnlace.attr("href", this.data.persona.shortUrl);
             this.$linkWap.attr("href", "whatsapp://send?text=" + this.data.persona.shortUrl);
             this.renderTableFriends();
+        } else {
+            swal.fire({
+                title: "¡Error!",
+                text: tokenResult.msj,
+                type: "error",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
+                }
+            });
         }
         CloseLoading();
     }

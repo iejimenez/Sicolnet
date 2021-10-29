@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Sicolnet.Models.BD;
 using Sicolnet.Models.Dtos;
 using Sicolnet.Utils;
@@ -46,24 +47,26 @@ namespace Sicolnet.Controllers
                 if (persona.IdReferente == 0)
                     persona.IdReferente = 1;
 
-                Token tokendb = dBContext.Tokens.Where(t => t.Celular == persona.Celular && t.Cedula == persona.Cedula).FirstOrDefault();
-                if (tokendb != null)
+                if (token != "NVD")
                 {
-                    if (tokendb.Key.ToString() == token)
+                    Token tokendb = dBContext.Tokens.Where(t => t.Celular == persona.Celular && t.Cedula == persona.Cedula).FirstOrDefault();
+                    if (tokendb != null)
                     {
-                        dBContext.Tokens.Remove(tokendb);
-                        dBContext.SaveChanges();
+                        if (tokendb.Key.ToString() == token)
+                        {
+                            dBContext.Tokens.Remove(tokendb);
+                            dBContext.SaveChanges();
+                        }
+                        else
+                        {
+                            throw new Exception("Token invalido");
+                        }
                     }
                     else
                     {
-                        throw new Exception("Token invalido");
+                        throw new Exception("Petición invalida");
                     }
                 }
-                else
-                {
-                    throw new Exception("Petición invalida");
-                }
-
                 Persona personaDB = dBContext.Personas.Where(p => p.Cedula == persona.Cedula).FirstOrDefault();
 
                 if (personaDB != null)
@@ -218,6 +221,10 @@ namespace Sicolnet.Controllers
                         p.ShortUrl = dboPersona.ShortUrl;
                         p.ShortUrlToken = dboPersona.ShortUrlToken;
                         dBContext.SaveChanges();
+                    }
+                    else
+                    {
+                        throw new Exception("No se pudo generar el link. Err: " + JsonConvert.SerializeObject(resultShorter.error));
                     }
                 }
 
