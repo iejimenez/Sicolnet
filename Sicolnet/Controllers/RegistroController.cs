@@ -228,7 +228,7 @@ namespace Sicolnet.Controllers
                     }
                 }
 
-                List<PersonaDto> amigos = InvitadosDirectos(p.IdPersona);
+                List<PersonaDto> amigos = InvitadosDirectos(p.IdPersona).OrderByDescending(p=>p.NumeroInvitados).ToList();
                 int contarAmigos = amigos.Count + amigos.Sum(p => p.NumeroInvitados);
                 retorno.Objeto = new
                 {
