@@ -38,7 +38,6 @@ namespace Sicolnet.Utils
 
     public class UrlShorter
     {
-        private static readonly HttpClient client = new HttpClient();
 
         private static string Account { get; set; }
         private static string ApiKey { get; set; }
@@ -49,16 +48,20 @@ namespace Sicolnet.Utils
             Account = _account;
             ApiKey = _apikey;
             Token = _token;
+
+            
         }
 
         public static async Task<UrlShorterResponse> ShortUrl(string url)
         {
-           
+
+            HttpClient client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("account", Account);
             client.DefaultRequestHeaders.Add("apikey", ApiKey);
             client.DefaultRequestHeaders.Add("token", Token);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
 
             string jsondata = "{ \"url\": \"" +url + "\" }";
 
@@ -69,6 +72,7 @@ namespace Sicolnet.Utils
 
             var responseString = await response.Content.ReadAsStringAsync();
             UrlShorterResponse rr = JsonConvert.DeserializeObject<UrlShorterResponse>(responseString);
+            client.Dispose();
             return rr;
         }
     }
