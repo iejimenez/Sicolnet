@@ -59,8 +59,11 @@
                             </div>
                             
                             <div class="col-6 text-right">
-                                <a href="#" class="ml-2 adminLink d-none">Informe</a>
-                                <a href="/Registro/Configuracion" id="lblConfig" class="ml-2 adminLink d-none">Configuración</a>
+                                @if (ViewBag.IsAdmin)
+                                {
+                                    <a href="#" class="ml-2 adminLink d-none">Informe</a>
+                                    <a href="/Registro/Configuracion" id="lblConfig" class="ml-2 adminLink d-none">Configuración</a>
+                                }
                                 <a href="#" id="lblSalir">Salir</a>
                             </div>
                         </div>

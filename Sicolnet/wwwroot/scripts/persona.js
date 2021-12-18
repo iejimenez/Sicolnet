@@ -52,7 +52,7 @@ class PersonaView {
         const validationConfig = {
             cedula: {
                 required: true,
-               /* digits: true,*/
+                digits: true,
                 minlength: 3
             }
         }
@@ -90,7 +90,7 @@ class PersonaView {
             ShowLoading(true);
             const tokenResult = await fetchGet(this.API_GET_CONSULTA, { "cedula" : this.$inputCedula.val() })
             if (!tokenResult.is_Error) {
-                console.log(tokenResult);
+              /*  console.log(tokenResult);*/
                 Swal.fire({
                     title: "¡Código de validación!",
                     html: "<br/>Ingrese el código que fue enviado a su número de celular para validar el ingreso.",

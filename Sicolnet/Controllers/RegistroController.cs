@@ -33,12 +33,24 @@ namespace Sicolnet.Controllers
 
         public IActionResult Persona()
         {
+            if (string.IsNullOrEmpty(Request.Cookies["appData"]))
+                return Unauthorized();
+            int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
+            bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
+            ViewBag.IsAdmin = isAdmin;
             return View();
         }
 
         public IActionResult Configuracion()
         {
-            return View();
+            if (string.IsNullOrEmpty(Request.Cookies["appData"]))
+                return Unauthorized();
+            int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
+            bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
+            if (isAdmin)
+                return View();
+            else
+                return Unauthorized();
         }
 
         public JsonResult Save(PersonaDto persona, string token)
@@ -144,25 +156,25 @@ namespace Sicolnet.Controllers
                     throw new Exception("Petición invalida.");
 
 
-                //PersonaDto p =  _mapper.Map<PersonaDto>(dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault());
+                PersonaDto p = _mapper.Map<PersonaDto>(dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault());
 
-                PersonaDto p = DbHelper.RawSqlQuery<PersonaDto>(@"SELECT  [IdPersona] ,[Cedula] ,[Nombres] ,[Apellidos] ,[Celular] ,[Email] 
-                                ,[IdMunicipio],[FechaNacimiento] ,[IdReferente] ,[IdEstado] ,[FechaRegistro],[FechaUltimaModificacion]
-                                ,[ShortUrl] ,[ShortUrlToken]FROM[dbo].[Personas] where Cedula ='" + cedula + "'", x=> 
-                new PersonaDto()
-                {
-                    IdPersona = (int)(x[0]),
-                    Cedula = (string)x[1],
-                    Nombres = (string)x[2],
-                    Apellidos = (string)x[3],
-                    Celular = (string)x[4],
-                    Email = (string)x[5],
-                    IdMunicipio = (int)x[6],
-                    FechaNacimiento = (DateTime)x[7],
-                    IdReferente =(int)x[8],
-                    ShortUrl = (string)x[12],
-                    ShortUrlToken = (string)x[13]
-                }, dBContext).FirstOrDefault();
+                //PersonaDto p = DbHelper.RawSqlQuery<PersonaDto>(@"SELECT  [IdPersona] ,[Cedula] ,[Nombres] ,[Apellidos] ,[Celular] ,[Email] 
+                //                ,[IdMunicipio],[FechaNacimiento] ,[IdReferente] ,[IdEstado] ,[FechaRegistro],[FechaUltimaModificacion]
+                //                ,[ShortUrl] ,[ShortUrlToken]FROM[dbo].[Personas] where Cedula ='" + cedula + "'", x=> 
+                //new PersonaDto()
+                //{
+                //    IdPersona = (int)(x[0]),
+                //    Cedula = (string)x[1],
+                //    Nombres = (string)x[2],
+                //    Apellidos = (string)x[3],
+                //    Celular = (string)x[4],
+                //    Email = (string)x[5],
+                //    IdMunicipio = (int)x[6],
+                //    FechaNacimiento = (DateTime)x[7],
+                //    IdReferente =(int)x[8],
+                //    ShortUrl = (string)x[12],
+                //    ShortUrlToken = (string)x[13]
+                //}, dBContext).FirstOrDefault();
 
 
                 if (p!= null)
@@ -208,8 +220,10 @@ namespace Sicolnet.Controllers
         public async Task<JsonResult> ConsultarArbolPersona(string cedula, string token)
         {
             AjaxData retorno = new AjaxData();
+            int idpersona = 0;
             try
             {
+               
                 if (string.IsNullOrEmpty(cedula))
                     throw new Exception("Petición invalida.");
 
@@ -256,6 +270,7 @@ namespace Sicolnet.Controllers
 
                 List<PersonaDto> amigos = InvitadosDirectos(p.IdPersona).OrderByDescending(p=>p.NumeroInvitados).ToList();
                 int contarAmigos = amigos.Count + amigos.Sum(p => p.NumeroInvitados);
+                idpersona = p.IdPersona;
                 retorno.Objeto = new
                 {
                     NumeroAmigos = contarAmigos,
@@ -269,8 +284,8 @@ namespace Sicolnet.Controllers
                 retorno.Msj = ex.Message;
                 retorno.Is_Error = true;
             }
-            var plainTextBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(retorno.Objeto));
-            Response.Cookies.Append("appData", Convert.ToBase64String(plainTextBytes));
+            
+            Response.Cookies.Append("appData", Encriptador.Encriptar(idpersona.ToString()));
             return Json(retorno);
 
             //string url = "whatsapp://send?text=https://www.anerbarrena.com/boton-compartir-whatsapp-4801/";

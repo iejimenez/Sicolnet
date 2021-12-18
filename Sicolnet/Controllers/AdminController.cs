@@ -50,8 +50,6 @@ namespace Sicolnet.Controllers
 
         public JsonResult Save(int id)
         {
-            
-
             AjaxData retorno = new AjaxData();
             try
             {
