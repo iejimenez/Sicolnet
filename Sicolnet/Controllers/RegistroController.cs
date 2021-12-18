@@ -137,9 +137,29 @@ namespace Sicolnet.Controllers
                 if (string.IsNullOrEmpty(cedula))
                     throw new Exception("Petición invalida.");
 
-                PersonaDto p =  _mapper.Map<PersonaDto>(dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault());
 
-                if(p!= null)
+                //PersonaDto p =  _mapper.Map<PersonaDto>(dBContext.Personas.Where(p => p.Cedula == cedula.Trim()).FirstOrDefault());
+
+                PersonaDto p = DbHelper.RawSqlQuery<PersonaDto>(@"SELECT  [IdPersona] ,[Cedula] ,[Nombres] ,[Apellidos] ,[Celular] ,[Email] 
+                                ,[IdMunicipio],[FechaNacimiento] ,[IdReferente] ,[IdEstado] ,[FechaRegistro],[FechaUltimaModificacion]
+                                ,[ShortUrl] ,[ShortUrlToken]FROM[dbo].[Personas] where Cedula ='" + cedula + "'", x=> 
+                new PersonaDto()
+                {
+                    IdPersona = (int)(x[0]),
+                    Cedula = (string)x[1],
+                    Nombres = (string)x[2],
+                    Apellidos = (string)x[3],
+                    Celular = (string)x[4],
+                    Email = (string)x[5],
+                    IdMunicipio = (int)x[6],
+                    FechaNacimiento = (DateTime)x[7],
+                    IdReferente =(int)x[8],
+                    ShortUrl = (string)x[12],
+                    ShortUrlToken = (string)x[13]
+                }, dBContext).FirstOrDefault();
+
+
+                if (p!= null)
                 {
                     Token token = dBContext.Tokens.Where(t => t.Celular == p.Celular && t.Cedula == p.Cedula).FirstOrDefault();
                     if (token != null)
@@ -242,6 +262,8 @@ namespace Sicolnet.Controllers
                 retorno.Msj = ex.Message;
                 retorno.Is_Error = true;
             }
+            var plainTextBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(retorno.Objeto));
+            Response.Cookies.Append("appData", Convert.ToBase64String(plainTextBytes));
             return Json(retorno);
 
             //string url = "whatsapp://send?text=https://www.anerbarrena.com/boton-compartir-whatsapp-4801/";

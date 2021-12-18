@@ -52,7 +52,7 @@ class PersonaView {
         const validationConfig = {
             cedula: {
                 required: true,
-                digits: true,
+               /* digits: true,*/
                 minlength: 3
             }
         }
