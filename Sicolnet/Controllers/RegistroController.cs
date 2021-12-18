@@ -35,6 +35,12 @@ namespace Sicolnet.Controllers
         {
             return View();
         }
+
+        public IActionResult Configuracion()
+        {
+            return View();
+        }
+
         public JsonResult Save(PersonaDto persona, string token)
             
         {
@@ -254,6 +260,7 @@ namespace Sicolnet.Controllers
                 {
                     NumeroAmigos = contarAmigos,
                     Persona = p,
+                    isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == p.IdPersona),
                     Amigos = amigos.OrderBy(s=>s.Nombres).ToList()
                 };
             }
@@ -292,6 +299,12 @@ namespace Sicolnet.Controllers
                 contar += ContarRamas(p.IdPersona); 
             }
             return contar;
+        }
+
+        public JsonResult GetPersonaByCedulaOrNombre(string q)
+        {
+            List<PersonaDto> personas = _mapper.Map<List<PersonaDto>>(dBContext.GetPersonaByCedulaOrNombre(q));
+            return Json(personas);
         }
     }
 }

@@ -293,20 +293,20 @@ function RenderTable(id, ncol, anchoColum, parametros, orden, checkColorClass) {
         width: 'auto'
     });
 
-    if (checkColorClass == undefined) {
-        $("#" + id).on('draw.dt', function () {
-            $(".styled").uniform({
-                radioClass: 'choice'
-            });
-        });
-    } else {
-        $("#" + id).on('draw.dt', function () {
-            $(".styled").uniform({
-                radioClass: 'choice',
-                wrapperClass: checkColorClass
-            });
-        });
-    }
+    //if (checkColorClass == undefined) {
+    //    $("#" + id).on('draw.dt', function () {
+    //        $(".styled").uniform({
+    //            radioClass: 'choice'
+    //        });
+    //    });
+    //} else {
+    //    $("#" + id).on('draw.dt', function () {
+    //        $(".styled").uniform({
+    //            radioClass: 'choice',
+    //            wrapperClass: checkColorClass
+    //        });
+    //    });
+    //}
 }
 
 function getParameterByName(name) {

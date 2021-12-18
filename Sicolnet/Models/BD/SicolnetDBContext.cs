@@ -48,6 +48,11 @@ namespace Sicolnet.Models.BD
 
         #region Persona
 
+        public List<Persona> GetPersonaByCedulaOrNombre(string query)
+        {
+            return this.Personas.Where(p => p.Cedula.Trim().Contains(query) || p.Nombres.Trim().Contains(query) || p.Apellidos.Trim().Contains(query)).ToList();
+        }
+
         public Persona InsertarPersona(Persona persona)
         {
             this.Personas.Add(persona);
@@ -60,6 +65,19 @@ namespace Sicolnet.Models.BD
             this.Personas.Update(persona);
             this.SaveChanges();
             return persona;
+        }
+        #endregion
+
+        #region Admins
+        public List<Usuario> GetAdmins()
+        {
+            return this.Usuarios.ToList();
+        }
+        public Usuario InsertarUsuario(Usuario user)
+        {
+            this.Usuarios.Add(user);
+            this.SaveChanges();
+            return user;
         }
         #endregion
 

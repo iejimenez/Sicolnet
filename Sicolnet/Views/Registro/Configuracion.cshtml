@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_PublicLayout.cshtml";
+}
+
+
+@section Scripts {
+    <script src="~/js/plugins/tables/datatables/datatables.min.js"></script>
+    <script src="~/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
+    <script type="module">
+        import ConfigurationView from '../scripts/configuracion.js'
+        $(document).ready(() => {
+            window.configurationView = new ConfigurationView();
+        });
+    </script>
+}
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-6">
+                <strong> Bienvenido, <span id="lblNombre"></span></strong>
+            </div>
+            <div class="col-6 text-right">
+                <a href="#" class="ml-2">Informe</a>
+                <a href="/Registro/Configuracion" id="lblConfig" class="ml-2">Configuración</a>
+
+                <a href="#" id="lblSalir">Salir</a>
+            </div>
+        </div>
+
+        <form id="form-add-admin" name="form-add-admin">
+            <div class="row">
+                <div class="col-xl-3">
+                    <div class="form-group">
+                        <select id="cboPersona" name="idPersona" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <button type="button" id="btnAgregar" class="btn btn-primary text-center">Agregar</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table font-size-xs line-height-1 table-bordered table-xs" id="datatable-admins">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cedula</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

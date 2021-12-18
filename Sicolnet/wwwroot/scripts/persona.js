@@ -169,7 +169,11 @@ class PersonaView {
             this.$lblNombre.html(this.data.persona.nombres);
             this.$lblAmigos.html(this.data.numeroAmigos);
             this.$lblEnlace.html(this.data.persona.shortUrl);
-
+            if (this.data.isAdmin) {
+                $(".adminLink").removeClass("d-none");
+            } else {
+                $(".adminLink").addClass("d-none");
+            }
             this.$lblEnlace.attr("href", this.data.persona.shortUrl);
             this.$linkWap.attr("href", "whatsapp://send?text=" + this.data.persona.shortUrl);
             this.renderTableFriends();

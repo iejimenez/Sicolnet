@@ -17,6 +17,7 @@ namespace Sicolnet.Utils
             CreateMap<Departamento, DepartamentoDto>().ReverseMap();
             CreateMap<Municipio, MunicipioDto>().ReverseMap();
             CreateMap<Persona, PersonaDto>().ForMember(f => f.Referente, g => g.Ignore()).ReverseMap();
+            CreateMap<Usuario, UsuarioDto>().ReverseMap();
             //CreateMap<Course, CourseDto>()
             //    .ForMember(s => s.modules,
             //    op => op.MapFrom(s => sbd.Modules.Where(m => m.courseId == s.courseId).ToList()));
