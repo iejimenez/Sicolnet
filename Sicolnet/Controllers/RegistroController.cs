@@ -33,11 +33,16 @@ namespace Sicolnet.Controllers
 
         public IActionResult Persona()
         {
-            if (string.IsNullOrEmpty(Request.Cookies["appData"]))
-                return Unauthorized();
-            int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
-            bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
-            ViewBag.IsAdmin = isAdmin;
+            if (!string.IsNullOrEmpty(Request.Cookies["appData"]))
+            {
+                int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
+                bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
+                ViewBag.IsAdmin = isAdmin;
+            }
+            else
+            {
+                ViewBag.IsAdmin = false;
+            }
             return View();
         }
 
