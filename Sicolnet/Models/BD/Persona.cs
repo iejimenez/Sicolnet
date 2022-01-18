@@ -31,7 +31,7 @@ namespace Sicolnet.Models.BD
 
         public int IdMunicipio { get; set; }
 
-        public DateTime FechaNacimiento { get; set; }
+        //public DateTime FechaNacimiento { get; set; }
 
         public int IdReferente { get; set; }
 

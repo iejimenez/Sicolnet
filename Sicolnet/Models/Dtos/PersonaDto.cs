@@ -21,7 +21,7 @@ namespace Sicolnet.Models.Dtos
 
         public int IdMunicipio { get; set; }
 
-        public DateTime FechaNacimiento { get; set; }
+        //public DateTime FechaNacimiento { get; set; }
 
         public int IdReferente { get; set; }
         public int NumeroInvitados { get; set; }
