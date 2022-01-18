@@ -7,6 +7,10 @@ class PersonaView {
         this.cerrarSession = this.cerrarSession.bind(this);
         this.clickBtnCopyUrlToClipboardHandler = this.clickBtnCopyUrlToClipboardHandler.bind(this);
         this.renderTableFriends = this.renderTableFriends.bind(this);
+        this.doubleClickCelularHandler = this.doubleClickCelularHandler.bind(this);
+        this.clickSaveButtonEditCell = this.clickSaveButtonEditCell.bind(this);
+        this.clickCancelButtonEditCell = this.clickCancelButtonEditCell.bind(this);
+        this.postEditCell = this.postEditCell.bind(this);
 
         this._initHtml()
         this._initConstants()
@@ -30,6 +34,7 @@ class PersonaView {
     _initConstants() {
         this.CONSULTAR_FORM = 'form-consulta-persona';
         this.API_GET_CONSULTA = SetUrlForQuery('/Registro/ConsutarPersona');
+        this.API_POST_EDIT_CELL = SetUrlForQuery('/Registro/CellEdit');
         this.API_GET_DATA = SetUrlForQuery("/Registro/ConsultarArbolPersona");
         this.IdTableFriends = "datatable-friends";
     }
@@ -175,7 +180,7 @@ class PersonaView {
                 $(".adminLink").addClass("d-none");
             }
             this.$lblEnlace.attr("href", this.data.persona.shortUrl);
-            this.$linkWap.attr("href", "whatsapp://send?text=" + this.data.persona.shortUrl);
+            this.$linkWap.attr("href", `whatsapp://send?text=Únete a la Red de Dangela y ayúdanos a cambiar el Congreso de la República. Únete aquí \n             \n ${this.data.persona.shortUrl}`);
             this.renderTableFriends();
         } else {
             swal.fire({
@@ -205,8 +210,12 @@ class PersonaView {
                     return data + " " + row.apellidos;
                 }
             },
-            { data: 'celular', className: "dt-center" },
-            { data: 'numeroInvitados', className: "dt-center"},
+            {
+                data: 'celular', className: "dt-center", render: (data, type, row, meta) => {
+                    return `<label id="${row.idPersona}" title='Click para editar' role="button" class="labelCelular mb-0">${data}</label>`;
+                }
+            },
+            { data: 'numeroInvitados', className: "dt-center" },
            ], {
             data: this.amigos,
             "paging": false,
@@ -219,8 +228,90 @@ class PersonaView {
 
         console.log($(`#${this.IdTableFriends} .review`));
 
+        $(`#${this.IdTableFriends} .labelCelular`).on("click", this.doubleClickCelularHandler);
 
         this.friendsTable = $("#" + this.IdTableFriends).DataTable();
+    }
+
+    doubleClickCelularHandler(event) {
+        const input = $("#"+event.target.id);
+        const id = event.target.id;
+        const parent = input.parent();
+        parent.html(`<div class="input-group">
+						<input id='input_${id}' data-idx="${id}" data-value="${input.html()}" type="text" value="${input.html()}" class="form-control text-center" placeholder="">
+						<span class="input-group-append">
+							<button id='btnSave_${id}' data-idx="${id}" class="btn btn-light" type="button"><i data-idx="${id}" class="text-success icon-checkmark2"></i></button>
+							<button id='btnCancel_${id}' data-idx="${id}" class="btn btn-light" type="button"><i data-idx="${id}" class="text-danger icon-cross3"></i></button>
+						</span>
+					</div>`);
+
+        $("#btnSave_" + id).off("click").on("click", this.clickSaveButtonEditCell);
+        $("#btnCancel_" + id).off("click").on("click", this.clickCancelButtonEditCell);
+    }
+
+    async clickSaveButtonEditCell(event) {
+        
+        const button = $(event.target);
+        const id = button.data("idx");
+        const input = $("#input_" + id);
+        const newValorCel = input.val();
+        if (!newValorCel)
+            return;
+        if (newValorCel.length < 10 || newValorCel.length > 10)
+            return;
+        ShowLoading(true);
+
+        const result = await this.postEditCell(id, newValorCel);
+        if (!result.is_Error) {
+            swal.fire({
+                title: "¡Celular actualizado!",
+                type: "success",
+                allowOutsideClick: false,
+                confirmButtonText: "Aceptar",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
+                }
+            });
+            input.attr("data-value", newValorCel);
+            this.clickCancelButtonEditCell({ target: document.getElementById("btnCancel_" + id) });
+
+        } else {
+            swal.fire({
+                title: "¡Error!",
+                text: result.msj,
+                type: "error",
+                customClass: {
+                    confirmButton: "btn btn-secondary"
+                }
+            });
+        }
+    }
+
+    async clickCancelButtonEditCell(event) {
+        const button = $(event.target);
+        const id = button.data("idx");
+        const input = $("#input_" + id);
+        const oldValue = input.data("value");
+        input.parent().parent().html(`<label id="${id}" title='Click para editar' role="button" class="labelCelular mb-0">${oldValue}</label>`);
+        $("#" + id).off("click").on("click", this.doubleClickCelularHandler);
+    }
+
+    async postEditCell(id, celular) {     
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: this.API_POST_EDIT_CELL,
+                content: "application/json; charset=utf-8",
+                type: "POST",
+                dataType: "json",
+                data: { "celular": celular, "idPersona": id },
+                success: function (data) {
+                    resolve(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    reject(new Error(`${errorThrown}`));
+                }
+            });
+        });
     }
 }
 

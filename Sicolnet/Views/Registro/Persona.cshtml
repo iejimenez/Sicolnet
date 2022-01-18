@@ -11,13 +11,12 @@
     <script src="~/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
 
     <script type="module">
-        import PersonaView from '../scripts/persona.js?v=1.0.3'
+        import PersonaView from '../scripts/persona.js?v=1.1.0'
         $(document).ready(() => {
             window.personaView = new PersonaView();
         });
     </script>
 }
-
 
 
 <div class="row">
@@ -57,13 +56,9 @@
                             <div class="col-6">
                                 <strong> Bienvenido, <span id="lblNombre"></span></strong>
                             </div>
-                            
                             <div class="col-6 text-right">
-                                @if (ViewBag.IsAdmin)
-                                {
-                                    <a href="#" class="ml-2 adminLink d-none">Informe</a>
-                                    <a href="/Registro/Configuracion" id="lblConfig" class="ml-2 adminLink d-none">Configuración</a>
-                                }
+                                <a href="#" class="ml-2 adminLink d-none">Informe</a>
+                                <a href="/Registro/Configuracion" id="lblConfig" class="ml-2 adminLink d-none">Configuración</a>
                                 <a href="#" id="lblSalir">Salir</a>
                             </div>
                         </div>

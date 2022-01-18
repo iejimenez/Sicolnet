@@ -33,11 +33,16 @@ namespace Sicolnet.Controllers
 
         public IActionResult Persona()
         {
-            if (string.IsNullOrEmpty(Request.Cookies["appData"]))
-                return Unauthorized();
-            int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
-            bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
-            ViewBag.IsAdmin = isAdmin;
+            if (!string.IsNullOrEmpty(Request.Cookies["appData"]))
+            {
+                int idperson = int.Parse(Encriptador.DesEncriptar(Request.Cookies["appData"]));
+                bool isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == idperson);
+                ViewBag.IsAdmin = isAdmin;
+            }
+            else
+            {
+                ViewBag.IsAdmin = false;
+            }
             return View();
         }
 
@@ -276,7 +281,7 @@ namespace Sicolnet.Controllers
                     NumeroAmigos = contarAmigos,
                     Persona = p,
                     isAdmin = dBContext.Usuarios.Any(u => u.IdPersona == p.IdPersona),
-                    Amigos = amigos.OrderBy(s=>s.Nombres).ToList()
+                    Amigos = amigos.OrderByDescending(s=>s.NumeroInvitados).ToList()
                 };
             }
             catch (Exception ex)
@@ -321,5 +326,34 @@ namespace Sicolnet.Controllers
             List<PersonaDto> personas = _mapper.Map<List<PersonaDto>>(dBContext.GetPersonaByCedulaOrNombre(q));
             return Json(personas);
         }
+
+        public JsonResult CellEdit(string celular, int idPersona)
+
+        {
+            if (string.IsNullOrEmpty(celular))
+                throw new Exception("Petición invalida.");
+
+            AjaxData retorno = new AjaxData();
+            try
+            {
+                Persona personaDB = dBContext.Personas.Where(p => p.IdPersona == idPersona).FirstOrDefault();
+
+                if (personaDB == null)
+                    throw new Exception("Petición invalida.");
+
+                personaDB.Celular = celular;
+                dBContext.SaveChanges();
+                retorno.Msj = "OK";
+                retorno.Is_Error = false;
+            }
+            catch (Exception ex)
+            {
+                retorno.Msj = ex.Message;
+                retorno.Is_Error = true;
+            }
+
+            return Json(retorno);
+        }
+
     }
 }
