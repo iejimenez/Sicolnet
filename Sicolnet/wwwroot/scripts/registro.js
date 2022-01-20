@@ -80,7 +80,7 @@
             items_html += `<option value="${item.idMunicipio}">${item.nombre} [${item.departamento.nombre}]</option>`;
         });
         this.$selectMunicipios.html(items_html);
-        this.$selectMunicipios.select2({ dropdownAutoWidth: true });
+        this.$selectMunicipios.select2({ dropdownAutoWidth: true, dropdownParent: this.$selectMunicipios.parent() });
 
     }
 
