@@ -61,7 +61,7 @@
             },
             email: {
                 required: true,
-                email2: true
+                email2: false
             },
             fechaNacimiento: {
                 required: true
